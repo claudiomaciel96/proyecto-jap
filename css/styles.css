@@ -188,3 +188,15 @@ a.custom-card:hover {
 .checked {
   color: orange;
 }
+
+#form-login{
+  
+  text-align: center;
+  
+}
+
+#alerta-login{
+  text-align:center;
+  background-color: rgba(231, 45, 45, 0.959);
+  
+}
