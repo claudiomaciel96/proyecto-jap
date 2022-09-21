@@ -7,7 +7,16 @@ const CART_INFO_URL = "https://japceibal.github.io/emercado-api/user_cart/";
 const CART_BUY_URL = "https://japceibal.github.io/emercado-api/cart/buy.json";
 const EXT_TYPE = ".json";
 
-document.getElementById('menu-usuario').innerHTML =`${localStorage.usuario}`;
+document.getElementById('menu-usuario').innerHTML =`<div class="dropdown" >
+<button class="btn btn-secondary dropdown-toggle" type="button"  data-bs-toggle="dropdown" aria-expanded="false">
+${localStorage.usuario}
+</button>
+<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+  <li><a class="dropdown-item" href="cart.html">Mi carrito</a></li>
+  <li><a class="dropdown-item" href="my-profile.html">Mi perfil</a></li>
+  <li><a class="dropdown-item" href="index.html">Cerrar sesión</a></li>
+</ul>
+</div>`;
 
 let showSpinner = function(){
   document.getElementById("spinner-wrapper").style.display = "block";

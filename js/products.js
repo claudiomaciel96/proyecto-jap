@@ -70,7 +70,7 @@ let productosFiltrados = [];
                         <img src="${producto.image}" alt="${producto.description}" class="img-thumbnail">
                     </div>
                     <div class="col">
-                        <div class="d-flex w-100 justify-content-between">
+                        <div onclick="setProdID(${producto.id})" class="d-flex w-100 justify-content-between">
                             <h4 class="mb-1">${producto.name} - ${producto.currency} ${producto.cost}</h4>
                             <small class="text-muted">${producto.soldCount} vendidos</small>
                         </div>
