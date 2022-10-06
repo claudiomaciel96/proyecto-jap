@@ -86,10 +86,6 @@ let productosFiltrados = [];
      divContainer.innerHTML = htmlContentToAppend;
     }
 
-    function setProdID(id) {
-      localStorage.setItem("prodID", id);
-      window.location = "product-info.html"
-    }
 
 function ordenAsc(){
   

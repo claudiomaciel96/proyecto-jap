@@ -8,7 +8,7 @@ const CART_BUY_URL = "https://japceibal.github.io/emercado-api/cart/buy.json";
 const EXT_TYPE = ".json";
 
 document.getElementById('menu-usuario').innerHTML =`<div class="dropdown" >
-<button class="btn btn-secondary dropdown-toggle" type="button"  data-bs-toggle="dropdown" aria-expanded="false">
+<button class="btn btn-secondary dropdown-toggle" type="button"  data-bs-toggle="dropdown" data-hover="dropdown" aria-expanded="false">
 ${localStorage.usuario}
 </button>
 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -50,4 +50,9 @@ let getJSONData = function(url){
         return result;
     });
 
+  }
+
+  function setProdID(id) {
+    localStorage.setItem("prodID", id);
+    window.location = "product-info.html"
   }

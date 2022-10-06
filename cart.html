@@ -39,10 +39,66 @@
   </nav>
   <main>
     <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
+      <div class="text-center p-4">
+        <h2>Carrito de compras</h2>
+      </div>
+      
+      <p class="lead pt-5">Articulos a comprar</p>
+      <table class="table">
+        <thead >
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Costo</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody id="articulos-acomprar">
+          
+        </tbody>
+      </table>
+      <p class="lead pt-5">Tipo de envío</p>
+      <div class="d-block my-3">
+        <div class="custom-control custom-radio">
+          <input id="goldradio" name="publicationType" type="radio" class="custom-control-input" checked="" required="">
+          <label class="custom-control-label" for="goldradio">Premium 2 a 5 dias (15%)</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input id="premiumradio" name="publicationType" type="radio" class="custom-control-input" required="">
+          <label class="custom-control-label" for="premiumradio">Express 5 a 8 dias (7%)</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input id="standardradio" name="publicationType" type="radio" class="custom-control-input" required="">
+          <label class="custom-control-label" for="standardradio">Standard 12 a 15 dias (5%)</label>
+        </div>
+       
+      </div>
+      <p class="lead pt-5">Dirección de envío</p>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+        <label for="calle">Calle</label>
+        <input type="text" class="form-control" id="calle" value="" name="calle">
+        <div class="invalid-feedback">
+          Ingresa calle
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="numero-calle">Numero</label>
+        <input type="text" class="form-control" id="numero-calle" value="" name="numero-calle">
+        <div class="invalid-feedback">
+          Ingresa el numero correspodiente
+        </div>
       </div>
     </div>
+    <div class="col-md-6 mb-3">
+      <label for="esquina">Esquina</label>
+      <input type="text" class="form-control" id="esquina" value="" name="esquina">
+      <div class="invalid-feedback">
+        Ingresa nombre de calle de la esquina
+      </div>
+    </div>
+      </div>
   </main>
   <footer class="text-muted">
     <div class="container">
