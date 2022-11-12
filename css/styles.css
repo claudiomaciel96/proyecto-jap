@@ -201,4 +201,20 @@ a.custom-card:hover {
   
 }
 
-
+input.sinflechas::-webkit-outer-spin-button,
+    
+input.sinflechas::-webkit-inner-spin-button {
+  
+      -webkit-appearance: none;
+  
+      margin: 0;
+}
+  
+  
+   
+  
+      input.sinflechas {
+  
+      -moz-appearance:textfield;
+  
+  }

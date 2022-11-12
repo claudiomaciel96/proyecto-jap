@@ -1,17 +1,16 @@
 let idUsuario = "25801";
 let agregar = "";
-let subtotal = 15200 ;
-let inputsTarjeta= document.querySelectorAll('.div-tarjeta input[type="text"]');
-let inputsTranferencia= document.querySelectorAll('.div-transferencia input[type="text"]');
-let prueba;
+let subtotal ;
+let inputsTarjeta= document.querySelectorAll('.div-tarjeta input');
+let inputsTranferencia= document.querySelectorAll('.div-transferencia input');
 let BotonSubmit = document.getElementById('btn-submit');
-let formulario = document.getElementById('formulario');
-actualizarCostos();
-/* fetch(CART_INFO_URL + idUsuario + EXT_TYPE) 
-.then(respuesta => respuesta.json())
-.then(datos => {
-    articulosCarrito = datos.articles; 
-}); */
+let formCart = document.getElementById('form-cart');
+let formPago = document.getElementById('form-modal');
+let BotonPago = document.getElementById('boton-pago');
+let pagoValido = document.getElementById('pago-valido');
+let checkTransferecia = document.getElementById('check-transferencia');
+let checkTarjeta = document.getElementById('check-tarjeta');
+
 let articulosCarrito = getJSONData(CART_INFO_URL + idUsuario + EXT_TYPE).then(function (resultObj) {
   if (resultObj.status === "ok") {
     articulosCarrito = resultObj.data.articles;
@@ -25,11 +24,13 @@ let articulosCarrito = getJSONData(CART_INFO_URL + idUsuario + EXT_TYPE).then(fu
         <td>${articulosCarrito[i].name}</td>
         <td>${articulosCarrito[i].currency} ${articulosCarrito[i].unitCost}</td>
         <td><div class="col-7">
-          <input  id ="input-cantidad${i}" type="number" name="input-cantidad"  class="form-control" id="productCostInput" placeholder value="${articulosCarrito[i].count}" min="1">
+          <input  id ="input-cantidad${i}" type="number" name="input-cantidad${i}"  class="form-control" id="productCostInput" placeholder value="${articulosCarrito[i].count}" min="1" required>
       </div></td>
         <td id="subtotal">${articulosCarrito[i].currency} ${articulosCarrito[i].unitCost}</td>
       </tr>`;
     document.getElementById("articulos-acomprar").innerHTML = agregar;
+    subtotal = articulosCarrito[0].unitCost ;
+    actualizarCostos();
     document.getElementById("input-cantidad" + i).addEventListener('input', function () {
       let cantidad = document.getElementById("input-cantidad" + i).value;
       subtotal=articulosCarrito[i].unitCost * cantidad;
@@ -40,13 +41,12 @@ let articulosCarrito = getJSONData(CART_INFO_URL + idUsuario + EXT_TYPE).then(fu
     
   }
  
- /*  prueba=document.querySelectorAll('.modal-body input[type="radio"]'); */
+ 
 
 });
 
   //alert flotante
   var alertPlaceholder = document.getElementById('liveAlertPlaceholder');
-var alertTrigger = document.getElementById('submit');
 
 function alert(message, type) {
   var wrapper = document.createElement('div')
@@ -58,6 +58,7 @@ function alert(message, type) {
 function deshabilitarInputs(inputs){
   for(let input of inputs){
     input.disabled=true;
+    input.value="";
   }
 }
 function habilitarInputs(inputs){
@@ -65,18 +66,31 @@ function habilitarInputs(inputs){
     input.disabled=false;
   }
 }
+function habilitarTransferencia(){
+  deshabilitarInputs(inputsTarjeta);
+habilitarInputs(inputsTranferencia)
+checkTransferecia.checked=true;
+
+}
+
+function habilitarTarjeta(){
+  deshabilitarInputs(inputsTranferencia);
+  habilitarInputs(inputsTarjeta)
+  checkTarjeta.checked= true;
+}
+
 function calculoEnvio(){
 
   let premium = 0.15;
   let express = 0.07;
   let standard = 0.05;
   if(document.getElementById('standardradio').checked){
-return subtotal * standard;
+return Math.round(subtotal * standard);
   }else if(document.getElementById('expressradio').checked){
-    return subtotal * express;
+    return Math.round(subtotal * express);
   }
   else{
-    return subtotal * premium;
+    return Math.round(subtotal * premium);
   }
 }
 
@@ -86,51 +100,47 @@ document.getElementById("p-envio").innerHTML = `USD ${calculoEnvio()}`;
 document.getElementById("p-total").innerHTML = `USD ${calculoEnvio()+subtotal}`;
 }
 
+function pagoSeleccionado(){
+  if(checkTarjeta.checked){
+    pagoValido.innerHTML = `Selecciono correctamente el pago con Tarjeta de crédito`;
+
+  }else if (checkTransferecia.checked){
+    pagoValido.innerHTML = `Selecciono correnctamente el pago con Transferencia bancaria`;
+
+  }
+}
+
 function hacerValidacion(event) {
-  if (!formulario.checkValidity()) {
+  if (!formCart.checkValidity() || !formPago.checkValidity()) {
       event.preventDefault();
       event.stopPropagation();
       alert('¡Complete los campos!', 'danger');
+  }else{alert('¡Compra realizada con éxito!', 'success');}
+  if ( !formPago.checkValidity()) {
+   
+    BotonPago.setAttribute("class", "btn btn-outline-info is-invalid");
   }else{
-    alert('¡Compra realizada con éxito!', 'success');
-    
-    
+    pagoSeleccionado();
+   
+    BotonPago.setAttribute("class", "btn btn-outline-info is-valid");
   }
-  formulario.classList.add('was-validated');
+  if (formCart.checkValidity() && formPago.checkValidity()) {
+    alert('¡Compra realizada con éxito!', 'success');}
+  formCart.classList.add('was-validated');
+  formPago.classList.add('was-validated');
 
 }
 
-document.getElementById('check-transferencia').addEventListener('click',function(){
-deshabilitarInputs(inputsTarjeta);
-habilitarInputs(inputsTranferencia)
+
+checkTransferecia.addEventListener('click',habilitarTransferencia);
+
+checkTarjeta.addEventListener('click',habilitarTarjeta);
+
+BotonSubmit.addEventListener('click',function(){
+  formCart.addEventListener('submit',hacerValidacion);
+  formPago.addEventListener('submit',hacerValidacion);
 });
 
-document.getElementById('check-tarjeta').addEventListener('click',function(){
-  deshabilitarInputs(inputsTranferencia);
-  habilitarInputs(inputsTarjeta)
-  });
-
-BotonSubmit.addEventListener('submit',function(){
-  formulario.addEventListener('submit',hacerValidacion);
-});
-
-formulario.addEventListener('submit',hacerValidacion);
-
-
-/* if (alertTrigger) {
-  alertTrigger.addEventListener('click', function (event) {
-    let calle = document.getElementById('calle');
-
-    if (calle.value == ''){
-      event.preventDefault();
-      calle.classList.add('is-invalid');
-      
-    }
-
-    alert('¡Su compra se realizo exitosamente!', 'success')
-  })
-} */
-//fin alert flotante
 
 document.getElementById('premiumradio').addEventListener('click',actualizarCostos);
 document.getElementById('expressradio').addEventListener('click',actualizarCostos);
